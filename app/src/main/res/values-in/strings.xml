@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Katalog Film 2</string>
+
+    <string name="release">Rilis %1$s</string>
+    <string name="vote">Nilai %1$.1f</string>
+    <string name="runtime">Durasi %1$d menit</string>
+    <string name="field_title">Judul</string>
+    <string name="field_release">Rilis</string>
+    <string name="field_vote">Nilai</string>
+    <string name="field_runtime">Durasi</string>
+    <string name="movie_detail">Detail Film</string>
+    <string name="tv_detail">Detail TV</string>
+    <string name="change_language_settings">Ubah Pengaturan Bahasa</string>
+</resources>
