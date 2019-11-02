@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Movie Catalogue 3</string>
+    <string name="data_language">en-US</string>
+
+    <string name="release">Release %1$s</string>
+    <string name="vote">Vote %1$.1f</string>
+    <string name="runtime">Runtime %1$d minutes</string>
+    <string name="field_title">Title</string>
+    <string name="field_release">Release</string>
+    <string name="field_vote">Vote</string>
+    <string name="field_runtime">Runtime</string>
+    <string name="field_tv_runtime">Runtime per episode</string>
+    <string name="movie_detail">Movie Detail</string>
+    <string name="tv_detail">TV Detail</string>
+    <string name="change_language_settings">Change Language Settings</string>
+    <string name="title_movies">Movies</string>
+    <string name="title_tv_shows">TV Shows</string>
+    <string name="description_movie_poster">Movie poster</string>
+    <string name="field_description">Overview</string>
+    <string name="reload_data">Reload data</string>
+    <string name="error_no_network_connection">No network connection</string>
+</resources>

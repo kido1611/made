@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Katalog Film 3</string>
+    <string name="data_language">id-ID</string>
+
+    <string name="release">Rilis %1$s</string>
+    <string name="vote">Nilai %1$.1f</string>
+    <string name="runtime">Durasi %1$d menit</string>
+    <string name="field_title">Judul</string>
+    <string name="field_release">Rilis</string>
+    <string name="field_vote">Nilai</string>
+    <string name="field_runtime">Durasi</string>
+    <string name="field_tv_runtime">Durasi tiap episode</string>
+    <string name="movie_detail">Detil Film</string>
+    <string name="tv_detail">Detil TV</string>
+    <string name="change_language_settings">Ubah pengaturan bahasa</string>
+    <string name="title_movies">Film</string>
+    <string name="title_tv_shows">TV</string>
+    <string name="description_movie_poster">Poster film</string>
+    <string name="field_description">Deskripsi</string>
+    <string name="reload_data">Muat ulang data</string>
+    <string name="error_no_network_connection">Tidak ada koneksi internet</string>
+</resources>
