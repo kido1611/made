@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Movie Catalogue 3</string>
+    <string name="app_name">Movie Catalogue</string>
     <string name="data_language">en-US</string>
 
     <string name="release">Release %1$s</string>
