@@ -15,4 +15,9 @@
         android:name="id.kido1611.dicoding.moviecatalogue3.activity.main.fragment.TVFragment"
         android:label="@string/title_tv_shows"
         tools:layout="@layout/fragment_movie" />
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="id.kido1611.dicoding.moviecatalogue3.activity.main.fragment.FavoriteContainerFragment"
+        android:label="@string/title_favorite"
+        tools:layout="@layout/fragment_favorite_container" />
 </navigation>

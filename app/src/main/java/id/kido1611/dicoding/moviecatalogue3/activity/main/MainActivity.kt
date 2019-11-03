@@ -23,12 +23,15 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_movies,
-                R.id.navigation_tvshows
+                R.id.navigation_tvshows,
+                R.id.navigation_favorite
             )
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
+
+        supportActionBar?.elevation = 0f
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

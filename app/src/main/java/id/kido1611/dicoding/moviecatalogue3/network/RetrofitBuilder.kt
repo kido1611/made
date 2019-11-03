@@ -11,8 +11,7 @@ class RetrofitBuilder {
         private val client: OkHttpClient = buildClient()
         private val retrofit: Retrofit = buildRetrofit(client)
 
-        private val BASE_URL: String = "https://api.themoviedb.org/3/"
-        private val API_KEY: String = "1c6e16dab4582d98a26960d301a3af3f"
+        private const val BASE_URL: String = "https://api.themoviedb.org/3/"
 
         private fun buildClient(): OkHttpClient {
             val loggingInterceptor = HttpLoggingInterceptor()
@@ -23,7 +22,7 @@ class RetrofitBuilder {
                     val url = it.request()
                         .url
                         .newBuilder()
-                        .addQueryParameter("api_key", API_KEY)
+                        .addQueryParameter("api_key", BuildConfig.TMDB_API_KEY)
                         .build()
 
                     val request = it.request().newBuilder().url(url).build()

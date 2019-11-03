@@ -1,14 +1,16 @@
 package id.kido1611.dicoding.moviecatalogue3.activity.main.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.kido1611.dicoding.moviecatalogue3.R
+import id.kido1611.dicoding.moviecatalogue3.adapter.MovieAdapter
+import id.kido1611.dicoding.moviecatalogue3.db.MovieDatabase
+import id.kido1611.dicoding.moviecatalogue3.helper.ViewModelHelpers
+import id.kido1611.dicoding.moviecatalogue3.model.Movie
 import id.kido1611.dicoding.moviecatalogue3.viewmodel.MovieListViewModel
 import kotlinx.android.synthetic.main.fragment_movie.*
 
@@ -16,10 +18,23 @@ import kotlinx.android.synthetic.main.fragment_movie.*
 /**
  * A simple [Fragment] subclass.
  */
-class MovieFragment : Fragment(){
+class MovieFragment : Fragment(), ViewModelHelpers {
 
     private lateinit var adapter: MovieAdapter
     private lateinit var movieListViewModel: MovieListViewModel
+    private lateinit var movieDatabase: MovieDatabase
+
+    private var movieList = ArrayList<Movie>()
+    private var successLoad = false
+    private var errorMessage = ""
+
+    private var isFavorite = false
+
+    companion object {
+        const val MOVIES_STATE = "movie"
+        const val SUCCESS_STATE = "success"
+        const val ERROR_MESSAGE_STATE = "error_message"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,36 +46,127 @@ class MovieFragment : Fragment(){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        adapter = MovieAdapter()
-
+        if (arguments != null) {
+            isFavorite = arguments!!.getBoolean("favorite", false)
+        }
+        adapter = MovieAdapter(movieList)
         rv_list.adapter = adapter
         rv_list.layoutManager = LinearLayoutManager(activity)
 
+        movieDatabase = MovieDatabase.getInstance(context!!.applicationContext) as MovieDatabase
+
         movieListViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MovieListViewModel::class.java)
-        movieListViewModel.getMovies().observe(this, Observer {
+        movieListViewModel.setViewModelHelpers(this)
+        movieListViewModel.getMovies().observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                adapter.setData(it)
+
+                movieList.clear()
+                movieList.addAll(it)
+                adapter.notifyDataSetChanged()
+
+                showList(true)
+                showError(false, "")
                 showLoading(false)
             }
-
         })
 
-        loadData()
+        if (savedInstanceState == null) {
+            loadData()
+        } else {
+            errorMessage = savedInstanceState.getString(ERROR_MESSAGE_STATE)
+            successLoad = savedInstanceState.getBoolean(SUCCESS_STATE)
+
+            if (successLoad) {
+                movieList.clear()
+                movieList.addAll(savedInstanceState.getParcelableArrayList(MOVIES_STATE))
+                adapter.notifyDataSetChanged()
+            } else {
+                showLoading(false)
+                showList(false)
+                showError(!successLoad, errorMessage)
+            }
+        }
+
+        btn_reload.setOnClickListener {
+            loadData()
+        }
+
+        if (isFavorite) {
+            setHasOptionsMenu(true)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.movie_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_reload -> {
+                loadData()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(MOVIES_STATE, movieList)
+        outState.putBoolean(SUCCESS_STATE, successLoad)
+        outState.putString(ERROR_MESSAGE_STATE, errorMessage)
     }
 
     private fun showLoading(state: Boolean) {
-        if (progressBar != null) {
-            if (state) {
-                progressBar.visibility = View.VISIBLE
-            } else {
-                progressBar.visibility = View.GONE
-            }
+        if (state) {
+            progressBar.visibility = View.VISIBLE
+        } else {
+            progressBar.visibility = View.GONE
         }
+    }
+
+    private fun showList(state: Boolean) {
+        if (state) {
+            rv_list.visibility = View.VISIBLE
+        } else {
+            rv_list.visibility = View.GONE
+        }
+    }
+
+    private fun showError(state: Boolean, message: String) {
+        if (state) {
+            layout_message.visibility = View.VISIBLE
+        } else {
+            layout_message.visibility = View.GONE
+        }
+        tv_message.text = message
     }
 
     private fun loadData() {
         showLoading(true)
-        movieListViewModel.setMovies()
+        showList(false)
+        showError(false, "")
+
+        if (isFavorite) {
+            movieListViewModel.setFavoriteMovies(movieDatabase.movieDAO())
+        } else {
+            movieListViewModel.setMovies()
+        }
     }
+
+    override fun onFailure(message: String) {
+        showLoading(false)
+        showList(false)
+        showError(true, message)
+
+        successLoad = false
+        errorMessage = message
+    }
+
+    override fun onSuccess() {
+        successLoad = true
+    }
+
 }

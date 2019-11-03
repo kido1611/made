@@ -16,8 +16,12 @@
     <string name="change_language_settings">Change Language Settings</string>
     <string name="title_movies">Movies</string>
     <string name="title_tv_shows">TV Shows</string>
+    <string name="title_favorite">Favorite</string>
     <string name="description_movie_poster">Movie poster</string>
     <string name="field_description">Overview</string>
     <string name="reload_data">Reload data</string>
     <string name="error_no_network_connection">No network connection</string>
+    <string name="not_available">Not available</string>
+    <string name="favorite_add_success">Success add movie to favorite</string>
+    <string name="favorite_remove_success">Success remove movie from favorite</string>
 </resources>

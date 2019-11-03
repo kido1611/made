@@ -1,4 +1,4 @@
-package id.kido1611.dicoding.moviecatalogue3.activity.main.fragment
+package id.kido1611.dicoding.moviecatalogue3.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -11,15 +11,8 @@ import id.kido1611.dicoding.moviecatalogue3.activity.detailtv.DetailTVActivity
 import id.kido1611.dicoding.moviecatalogue3.model.TV
 import kotlinx.android.synthetic.main.list_movie_item.view.*
 
-class TVAdapter : RecyclerView.Adapter<TVAdapter.ListViewHolder>() {
-
-    private val movieList = ArrayList<TV>()
-
-    fun setData(items: ArrayList<TV>) {
-        movieList.clear()
-        movieList.addAll(items)
-        notifyDataSetChanged()
-    }
+class TVAdapter internal constructor(private var movieList: ArrayList<TV>) :
+    RecyclerView.Adapter<TVAdapter.ListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =
@@ -46,7 +39,7 @@ class TVAdapter : RecyclerView.Adapter<TVAdapter.ListViewHolder>() {
             }
             itemView.setOnClickListener {
                 val mIntent = Intent(itemView.context, DetailTVActivity::class.java)
-                mIntent.putExtra(DetailTVActivity.TV_ITEM, tv.id)
+                mIntent.putExtra(DetailTVActivity.MOVIE_ITEM, tv.id)
                 itemView.context.startActivity(mIntent)
             }
         }

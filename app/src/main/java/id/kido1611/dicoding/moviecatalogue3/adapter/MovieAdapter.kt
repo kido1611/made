@@ -1,4 +1,4 @@
-package id.kido1611.dicoding.moviecatalogue3.activity.main.fragment
+package id.kido1611.dicoding.moviecatalogue3.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -11,15 +11,8 @@ import id.kido1611.dicoding.moviecatalogue3.activity.detailmovie.DetailMovieActi
 import id.kido1611.dicoding.moviecatalogue3.model.Movie
 import kotlinx.android.synthetic.main.list_movie_item.view.*
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
-
-    private val movieList = ArrayList<Movie>()
-
-    fun setData(items: ArrayList<Movie>) {
-        movieList.clear()
-        movieList.addAll(items)
-        notifyDataSetChanged()
-    }
+class MovieAdapter internal constructor(private var movieList: ArrayList<Movie>) :
+    RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view =

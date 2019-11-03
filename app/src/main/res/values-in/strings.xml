@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Katalog Film 3</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Katalog Film</string>
     <string name="data_language">id-ID</string>
 
     <string name="release">Rilis %1$s</string>
@@ -20,4 +20,8 @@
     <string name="field_description">Deskripsi</string>
     <string name="reload_data">Muat ulang data</string>
     <string name="error_no_network_connection">Tidak ada koneksi internet</string>
+    <string name="favorite_add_success">Berhasil menambahkan film ke favorit</string>
+    <string name="favorite_remove_success">Berhasil menghapus film dari favorit</string>
+    <string name="not_available">Tidak tersedia</string>
+    <string name="title_favorite">Favorit</string>
 </resources>
