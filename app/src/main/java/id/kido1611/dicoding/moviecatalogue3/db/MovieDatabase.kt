@@ -15,6 +15,9 @@ abstract class MovieDatabase : RoomDatabase() {
 
     companion object {
 
+        const val AUTHORITY = "id.kido1611.dicoding.moviecatalogue3"
+        const val SCHEME = "content"
+
         @Volatile
         private var INSTANCE: MovieDatabase? = null
 

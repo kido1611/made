@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import id.kido1611.dicoding.moviecatalogue3.R
 import id.kido1611.dicoding.moviecatalogue3.db.MovieDatabase
-import id.kido1611.dicoding.moviecatalogue3.helper.ViewModelHelpers
+import id.kido1611.dicoding.moviecatalogue3.handler.ViewModelHandler
 import id.kido1611.dicoding.moviecatalogue3.model.TV
 import id.kido1611.dicoding.moviecatalogue3.viewmodel.TVViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -21,7 +21,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DetailTVActivity : AppCompatActivity(), ViewModelHelpers {
+class DetailTVActivity : AppCompatActivity(), ViewModelHandler {
 
     companion object {
         const val MOVIE_ITEM = "movie_item"
@@ -57,15 +57,13 @@ class DetailTVActivity : AppCompatActivity(), ViewModelHelpers {
 
         tvViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(TVViewModel::class.java)
-        tvViewModel.setViewModelHelpers(this)
+        tvViewModel.setViewModelHandler(this)
         tvViewModel.getTV().observe(this, Observer {
             if (it != null) {
                 tv = it
                 showMovie(it)
 
-                progressBar.visibility = View.GONE
-                layout_movie.visibility = View.VISIBLE
-                layout_message.visibility = View.GONE
+                onSuccess()
 
                 updateFavorite()
             }
@@ -84,11 +82,9 @@ class DetailTVActivity : AppCompatActivity(), ViewModelHelpers {
 
             if (successLoad) {
                 showMovie(tv!!)
+                onSuccess()
             } else {
-                progressBar.visibility = View.GONE
-                layout_movie.visibility = View.GONE
-                layout_message.visibility = View.VISIBLE
-                tv_message.text = errorMessage
+                onFailure(errorMessage)
             }
 
             updateFavorite()
@@ -107,10 +103,6 @@ class DetailTVActivity : AppCompatActivity(), ViewModelHelpers {
     }
 
     private fun loadData() {
-        progressBar.visibility = View.VISIBLE
-        layout_movie.visibility = View.GONE
-        layout_message.visibility = View.GONE
-
         tvViewModel.setTV(tvId, resources.getString(R.string.data_language))
     }
 
@@ -215,7 +207,11 @@ class DetailTVActivity : AppCompatActivity(), ViewModelHelpers {
 
     override fun onSuccess() {
         successLoad = true
+
         appbar.setExpanded(true)
+        progressBar.visibility = View.GONE
+        layout_movie.visibility = View.VISIBLE
+        layout_message.visibility = View.GONE
     }
 
     override fun onFailure(message: String) {
@@ -226,6 +222,13 @@ class DetailTVActivity : AppCompatActivity(), ViewModelHelpers {
         layout_movie.visibility = View.GONE
         layout_message.visibility = View.VISIBLE
         tv_message.text = errorMessage
+        appbar.setExpanded(false)
+    }
+
+    override fun onInit() {
+        progressBar.visibility = View.VISIBLE
+        layout_movie.visibility = View.GONE
+        layout_message.visibility = View.GONE
         appbar.setExpanded(false)
     }
 }

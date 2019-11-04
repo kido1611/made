@@ -1,5 +1,6 @@
 package id.kido1611.dicoding.moviecatalogue3.activity.main.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -9,16 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.kido1611.dicoding.moviecatalogue3.R
 import id.kido1611.dicoding.moviecatalogue3.adapter.MovieAdapter
 import id.kido1611.dicoding.moviecatalogue3.db.MovieDatabase
-import id.kido1611.dicoding.moviecatalogue3.helper.ViewModelHelpers
+import id.kido1611.dicoding.moviecatalogue3.handler.ViewModelHandler
 import id.kido1611.dicoding.moviecatalogue3.model.Movie
 import id.kido1611.dicoding.moviecatalogue3.viewmodel.MovieListViewModel
+import id.kido1611.dicoding.moviecatalogue3.activity.searchmovie.SearchMovieActivity
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class MovieFragment : Fragment(), ViewModelHelpers {
+class MovieFragment : Fragment(), ViewModelHandler {
 
     private lateinit var adapter: MovieAdapter
     private lateinit var movieListViewModel: MovieListViewModel
@@ -57,7 +59,7 @@ class MovieFragment : Fragment(), ViewModelHelpers {
 
         movieListViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MovieListViewModel::class.java)
-        movieListViewModel.setViewModelHelpers(this)
+        movieListViewModel.setViewModelHandler(this)
         movieListViewModel.getMovies().observe(viewLifecycleOwner, Observer {
             if (it != null) {
 
@@ -65,9 +67,7 @@ class MovieFragment : Fragment(), ViewModelHelpers {
                 movieList.addAll(it)
                 adapter.notifyDataSetChanged()
 
-                showList(true)
-                showError(false, "")
-                showLoading(false)
+                onSuccess()
             }
         })
 
@@ -81,10 +81,10 @@ class MovieFragment : Fragment(), ViewModelHelpers {
                 movieList.clear()
                 movieList.addAll(savedInstanceState.getParcelableArrayList(MOVIES_STATE))
                 adapter.notifyDataSetChanged()
+
+                onSuccess()
             } else {
-                showLoading(false)
-                showList(false)
-                showError(!successLoad, errorMessage)
+                onFailure(errorMessage)
             }
         }
 
@@ -92,20 +92,28 @@ class MovieFragment : Fragment(), ViewModelHelpers {
             loadData()
         }
 
-        if (isFavorite) {
-            setHasOptionsMenu(true)
-        }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.movie_menu, menu)
+        if(isFavorite) {
+            inflater.inflate(R.menu.movie_menu, menu)
+        }
+        else{
+            inflater.inflate(R.menu.search_menu, menu)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_reload -> {
                 loadData()
+                return true
+            }
+            R.id.menu_search -> {
+                val intent = Intent(context, SearchMovieActivity::class.java)
+                context?.startActivity(intent)
                 return true
             }
         }
@@ -145,10 +153,6 @@ class MovieFragment : Fragment(), ViewModelHelpers {
     }
 
     private fun loadData() {
-        showLoading(true)
-        showList(false)
-        showError(false, "")
-
         if (isFavorite) {
             movieListViewModel.setFavoriteMovies(movieDatabase.movieDAO())
         } else {
@@ -166,7 +170,16 @@ class MovieFragment : Fragment(), ViewModelHelpers {
     }
 
     override fun onSuccess() {
+        showLoading(false)
+        showList(true)
+        showError(false, "")
         successLoad = true
+    }
+
+    override fun onInit() {
+        showLoading(true)
+        showList(false)
+        showError(false, "")
     }
 
 }

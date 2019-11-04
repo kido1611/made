@@ -24,4 +24,8 @@
     <string name="not_available">Not available</string>
     <string name="favorite_add_success">Success add movie to favorite</string>
     <string name="favorite_remove_success">Success remove movie from favorite</string>
+    <string name="search">Search</string>
+    <string name="search_not_found">Not found</string>
+    <string name="appwidget_text">Favorite Movie</string>
+    <string name="add_widget">Add widget</string>
 </resources>

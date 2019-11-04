@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import id.kido1611.dicoding.moviecatalogue3.db.MovieDAO
-import id.kido1611.dicoding.moviecatalogue3.helper.ViewModelHelpers
+import id.kido1611.dicoding.moviecatalogue3.handler.ViewModelHandler
 import id.kido1611.dicoding.moviecatalogue3.model.Movie
 import id.kido1611.dicoding.moviecatalogue3.model.MovieResponse
 import id.kido1611.dicoding.moviecatalogue3.network.RetrofitBuilder
@@ -17,24 +17,26 @@ import retrofit2.Response
 
 class MovieListViewModel : ViewModel() {
     private val listMovies = MutableLiveData<ArrayList<Movie>>()
-    private var viewModelHelpers: ViewModelHelpers? = null
+    private val searchMovie = MutableLiveData<String>()
+    private var viewModelHandler: ViewModelHandler? = null
 
-    internal fun setViewModelHelpers(helper: ViewModelHelpers) {
-        viewModelHelpers = helper
+    internal fun setViewModelHandler(handler: ViewModelHandler){
+        viewModelHandler = handler
     }
 
     internal fun setMovies() {
+        viewModelHandler?.onInit()
         val service = RetrofitBuilder.createService(TheMovieDBServices::class.java)
         val call = service.DiscoverMovie("en-US")
         call.enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                viewModelHelpers?.onFailure(t.message.toString())
+                viewModelHandler?.onFailure(t.message.toString())
             }
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 val movieList = response.body() as MovieResponse
                 listMovies.postValue(movieList.movieLists as ArrayList<Movie>)
-                viewModelHelpers?.onSuccess()
+                viewModelHandler?.onSuccess()
             }
         })
     }
@@ -42,10 +44,31 @@ class MovieListViewModel : ViewModel() {
     internal fun setFavoriteMovies(movieDAO: MovieDAO) {
         GlobalScope.launch {
             val lists = movieDAO.getAllMovies() as ArrayList<Movie>
-//            val listItems = ArrayList<Movie>()
-//            listItems.addAll(lists)
             listMovies.postValue(lists)
         }
+    }
+
+    internal fun searchMovies(query: String){
+        viewModelHandler?.onInit()
+        val service = RetrofitBuilder.createService(TheMovieDBServices::class.java)
+        val call = service.SearchMovie(query, "en-US")
+        call.enqueue(object: Callback<MovieResponse>{
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                viewModelHandler?.onFailure(t.message.toString())
+            }
+
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                val movieResponse = response.body() as MovieResponse
+                listMovies.postValue(movieResponse.movieLists as ArrayList<Movie>)
+                viewModelHandler?.onSuccess()
+            }
+        })
+
+        searchMovie.postValue(query)
+    }
+
+    internal fun getSearchMovieText() : LiveData<String>{
+        return searchMovie
     }
 
     internal fun getMovies(): LiveData<ArrayList<Movie>> {

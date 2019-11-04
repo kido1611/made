@@ -21,4 +21,10 @@ interface TheMovieDBServices {
 
     @GET("tv/{tvid}")
     fun GetTV(@Path("tvid") id: Int, @Query("language") language: String): Call<TV>
+
+    @GET("search/movie")
+    fun SearchMovie(@Query("query") query: String, @Query("language") language: String): Call<MovieResponse>
+
+    @GET("search/tv")
+    fun SearchTV(@Query("query") query: String, @Query("language") language: String): Call<TVResponse>
 }

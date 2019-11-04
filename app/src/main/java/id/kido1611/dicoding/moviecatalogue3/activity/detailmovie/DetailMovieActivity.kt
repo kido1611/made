@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import id.kido1611.dicoding.moviecatalogue3.R
 import id.kido1611.dicoding.moviecatalogue3.db.MovieDatabase
-import id.kido1611.dicoding.moviecatalogue3.helper.ViewModelHelpers
+import id.kido1611.dicoding.moviecatalogue3.handler.ViewModelHandler
 import id.kido1611.dicoding.moviecatalogue3.model.Movie
 import id.kido1611.dicoding.moviecatalogue3.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -21,7 +21,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DetailMovieActivity : AppCompatActivity(), ViewModelHelpers {
+class DetailMovieActivity : AppCompatActivity(), ViewModelHandler {
 
     companion object {
         const val MOVIE_ITEM = "movie_item"
@@ -55,15 +55,13 @@ class DetailMovieActivity : AppCompatActivity(), ViewModelHelpers {
 
         movieViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(MovieViewModel::class.java)
-        movieViewModel.setViewModelHelpers(this)
+        movieViewModel.setViewModelHandler(this)
         movieViewModel.getMovie().observe(this, Observer {
             if (it != null) {
                 movie = it
                 showMovie(it)
 
-                progressBar.visibility = View.GONE
-                layout_movie.visibility = View.VISIBLE
-                layout_message.visibility = View.GONE
+                onSuccess()
 
                 updateFavorite()
             }
@@ -82,11 +80,9 @@ class DetailMovieActivity : AppCompatActivity(), ViewModelHelpers {
 
             if (successLoad) {
                 showMovie(movie!!)
+                onSuccess()
             } else {
-                progressBar.visibility = View.GONE
-                layout_movie.visibility = View.GONE
-                layout_message.visibility = View.VISIBLE
-                tv_message.text = errorMessage
+                onFailure(errorMessage)
             }
 
             updateFavorite()
@@ -105,10 +101,6 @@ class DetailMovieActivity : AppCompatActivity(), ViewModelHelpers {
     }
 
     private fun loadData() {
-        progressBar.visibility = View.VISIBLE
-        layout_movie.visibility = View.GONE
-        layout_message.visibility = View.GONE
-
         movieViewModel.setMovie(movieId, resources.getString(R.string.data_language))
     }
 
@@ -213,7 +205,11 @@ class DetailMovieActivity : AppCompatActivity(), ViewModelHelpers {
 
     override fun onSuccess() {
         successLoad = true
+
         appbar.setExpanded(true)
+        progressBar.visibility = View.GONE
+        layout_movie.visibility = View.VISIBLE
+        layout_message.visibility = View.GONE
     }
 
     override fun onFailure(message: String) {
@@ -224,6 +220,13 @@ class DetailMovieActivity : AppCompatActivity(), ViewModelHelpers {
         layout_movie.visibility = View.GONE
         layout_message.visibility = View.VISIBLE
         tv_message.text = errorMessage
+        appbar.setExpanded(false)
+    }
+
+    override fun onInit() {
+        progressBar.visibility = View.VISIBLE
+        layout_movie.visibility = View.GONE
+        layout_message.visibility = View.GONE
         appbar.setExpanded(false)
     }
 }

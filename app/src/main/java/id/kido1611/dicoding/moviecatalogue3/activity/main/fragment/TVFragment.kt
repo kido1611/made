@@ -1,5 +1,6 @@
 package id.kido1611.dicoding.moviecatalogue3.activity.main.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -7,9 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.kido1611.dicoding.moviecatalogue3.R
+import id.kido1611.dicoding.moviecatalogue3.activity.searchtv.SearchTVActivity
 import id.kido1611.dicoding.moviecatalogue3.adapter.TVAdapter
 import id.kido1611.dicoding.moviecatalogue3.db.MovieDatabase
-import id.kido1611.dicoding.moviecatalogue3.helper.ViewModelHelpers
+import id.kido1611.dicoding.moviecatalogue3.handler.ViewModelHandler
 import id.kido1611.dicoding.moviecatalogue3.model.TV
 import id.kido1611.dicoding.moviecatalogue3.viewmodel.TVListViewModel
 import kotlinx.android.synthetic.main.fragment_movie.*
@@ -17,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_movie.*
 /**
  * A simple [Fragment] subclass.
  */
-class TVFragment : Fragment(), ViewModelHelpers {
+class TVFragment : Fragment(), ViewModelHandler {
 
     private lateinit var adapter: TVAdapter
     private lateinit var tvListViewModel: TVListViewModel
@@ -56,7 +58,7 @@ class TVFragment : Fragment(), ViewModelHelpers {
 
         tvListViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(TVListViewModel::class.java)
-        tvListViewModel.setViewModelHelpers(this)
+        tvListViewModel.setViewModelHandler(this)
         tvListViewModel.getTV().observe(viewLifecycleOwner, Observer {
             if (it != null) {
 
@@ -64,9 +66,7 @@ class TVFragment : Fragment(), ViewModelHelpers {
                 tvList.addAll(it)
                 adapter.notifyDataSetChanged()
 
-                showList(true)
-                showError(false, "")
-                showLoading(false)
+                onSuccess()
             }
         })
 
@@ -80,10 +80,10 @@ class TVFragment : Fragment(), ViewModelHelpers {
                 tvList.clear()
                 tvList.addAll(savedInstanceState.getParcelableArrayList(MOVIES_STATE))
                 adapter.notifyDataSetChanged()
+
+                onSuccess()
             } else {
-                showLoading(false)
-                showList(false)
-                showError(!successLoad, errorMessage)
+                onFailure(errorMessage)
             }
         }
 
@@ -91,20 +91,28 @@ class TVFragment : Fragment(), ViewModelHelpers {
             loadData()
         }
 
-        if (isFavorite) {
-            setHasOptionsMenu(true)
-        }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.movie_menu, menu)
+        if(isFavorite) {
+            inflater.inflate(R.menu.movie_menu, menu)
+        }
+        else{
+            inflater.inflate(R.menu.search_menu, menu)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_reload -> {
                 loadData()
+                return true
+            }
+            R.id.menu_search -> {
+                val intent = Intent(context, SearchTVActivity::class.java)
+                context?.startActivity(intent)
                 return true
             }
         }
@@ -144,10 +152,6 @@ class TVFragment : Fragment(), ViewModelHelpers {
     }
 
     private fun loadData() {
-        showLoading(true)
-        showList(false)
-        showError(false, "")
-
         if (isFavorite) {
             tvListViewModel.setFavoriteTV(movieDatabase.tvDAO())
         } else {
@@ -165,8 +169,15 @@ class TVFragment : Fragment(), ViewModelHelpers {
     }
 
     override fun onSuccess() {
+        showLoading(false)
+        showList(true)
+        showError(false, "")
         successLoad = true
     }
 
-
+    override fun onInit() {
+        showLoading(true)
+        showList(false)
+        showError(false, "")
+    }
 }

@@ -34,8 +34,10 @@ class MovieAdapter internal constructor(private var movieList: ArrayList<Movie>)
                 tv_release.text = release
                 val vote = resources.getString(R.string.vote, movie.voteAverage)
                 tv_vote.text = vote
-                Glide.with(itemView).load("https://image.tmdb.org/t/p/w92" + movie.poster)
-                    .into(iv_poster)
+                if(movie.poster!=null){
+                    Glide.with(itemView).load("https://image.tmdb.org/t/p/w92" + movie.poster)
+                        .into(iv_poster)
+                }
             }
             itemView.setOnClickListener {
                 val mIntent = Intent(itemView.context, DetailMovieActivity::class.java)

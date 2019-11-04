@@ -24,4 +24,8 @@
     <string name="favorite_remove_success">Berhasil menghapus film dari favorit</string>
     <string name="not_available">Tidak tersedia</string>
     <string name="title_favorite">Favorit</string>
+    <string name="add_widget">Tambah widget</string>
+    <string name="appwidget_text">Film favorit</string>
+    <string name="search">Cari</string>
+    <string name="search_not_found">Tidak ditemukan</string>
 </resources>
