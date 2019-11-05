@@ -6,8 +6,6 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import android.util.Log
-import androidx.room.OnConflictStrategy
 import id.kido1611.dicoding.moviecatalogue3.model.Movie
 
 class FavoriteMovieProvider : ContentProvider() {
@@ -18,20 +16,21 @@ class FavoriteMovieProvider : ContentProvider() {
 
         const val AUTHORITY = "id.kido1611.dicoding.moviecatalogue3"
         const val SCHEME = "content"
-        const val TABLE_NAME = "movie"
+        const val MOVIE_TABLE = "movie"
+        const val TV_TABLE = "tv"
         const val MOVIE_DIR = 1
-        const val MOVIE_ITEM = 2
+        const val TV_DIR = 2
 
         private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
         val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
             .authority(AUTHORITY)
-            .appendPath(TABLE_NAME)
+            .appendPath(MOVIE_TABLE)
             .build()
 
         init {
-            sUriMatcher.addURI(AUTHORITY, TABLE_NAME, MOVIE_DIR )
-            sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", MOVIE_ITEM )
+            sUriMatcher.addURI(AUTHORITY, MOVIE_TABLE, MOVIE_DIR )
+            sUriMatcher.addURI(AUTHORITY, TV_TABLE, TV_DIR )
         }
     }
 
@@ -72,6 +71,9 @@ class FavoriteMovieProvider : ContentProvider() {
         return when(sUriMatcher.match(uri)){
             MOVIE_DIR -> {
                 movieDatabase.movieDAO().getAllMoviesProviders()
+            }
+            TV_DIR -> {
+                movieDatabase.tvDAO().getAllTVProviders()
             }
             else -> null
         }

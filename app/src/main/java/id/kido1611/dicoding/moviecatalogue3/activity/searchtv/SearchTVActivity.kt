@@ -1,21 +1,18 @@
 package id.kido1611.dicoding.moviecatalogue3.activity.searchtv
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.kido1611.dicoding.moviecatalogue3.R
-import id.kido1611.dicoding.moviecatalogue3.adapter.MovieAdapter
 import id.kido1611.dicoding.moviecatalogue3.adapter.TVAdapter
 import id.kido1611.dicoding.moviecatalogue3.handler.ViewModelHandler
-import id.kido1611.dicoding.moviecatalogue3.model.Movie
 import id.kido1611.dicoding.moviecatalogue3.model.TV
-import id.kido1611.dicoding.moviecatalogue3.viewmodel.MovieListViewModel
 import id.kido1611.dicoding.moviecatalogue3.viewmodel.TVListViewModel
 import kotlinx.android.synthetic.main.fragment_movie.*
 
@@ -95,14 +92,14 @@ class SearchTVActivity : AppCompatActivity(), ViewModelHandler {
                 return false
             }
         })
-        searchView.setFocusable(true)
+        searchView.isFocusable = true
         searchView.isIconified = false
         searchView.requestFocusFromTouch()
 
         movieListViewModel.getSearchTVText().observe(this, Observer {
             if(it!=null){
                 searchView.setQuery(it, false)
-                searchView.setFocusable(false)
+                searchView.isFocusable = false
                 searchView.clearFocus()
             }
         })

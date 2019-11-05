@@ -35,7 +35,6 @@
         <provider
             android:name=".db.FavoriteMovieProvider"
             android:authorities="id.kido1611.dicoding.moviecatalogue3"
-            android:enabled="true"
             android:exported="true"
             android:readPermission="id.kido1611.dicoding.moviecatalogue3.READ_DATABASE"
             android:writePermission="id.kido1611.dicoding.moviecatalogue3.WRITE_DATABASE" />

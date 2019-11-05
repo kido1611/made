@@ -90,6 +90,10 @@ class DetailTVActivity : AppCompatActivity(), ViewModelHandler {
             updateFavorite()
         }
 
+        btn_reload.setOnClickListener {
+            loadData()
+        }
+
         favoriteState()
     }
 

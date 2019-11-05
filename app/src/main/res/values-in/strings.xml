@@ -28,4 +28,12 @@
     <string name="appwidget_text">Film favorit</string>
     <string name="search">Cari</string>
     <string name="search_not_found">Tidak ditemukan</string>
+    <string name="alarm_failed_get_data">Gagal mendapatkan data: %1$s</string>
+    <string name="alarm_preference">Pengaturan Pengingat</string>
+    <string name="alarm_release_message">Film baru</string>
+    <string name="alarm_release_new_movie">Film baru: %1$s</string>
+    <string name="alarm_release_summary">%1$d film rilis hari ini</string>
+    <string name="alarm_success_cancel">Sukses membatalkan pengingat</string>
+    <string name="alarm_success_setup">Sukses mengatur pengingat</string>
+    <string name="daily_alarm_message">Buka aplikasi sekarang</string>
 </resources>

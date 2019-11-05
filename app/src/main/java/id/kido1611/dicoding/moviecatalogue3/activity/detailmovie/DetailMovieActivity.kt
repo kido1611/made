@@ -1,6 +1,5 @@
 package id.kido1611.dicoding.moviecatalogue3.activity.detailmovie
 
-import android.content.ContentValues
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import id.kido1611.dicoding.moviecatalogue3.R
-import id.kido1611.dicoding.moviecatalogue3.db.FavoriteMovieProvider
 import id.kido1611.dicoding.moviecatalogue3.db.MovieDatabase
 import id.kido1611.dicoding.moviecatalogue3.handler.ViewModelHandler
 import id.kido1611.dicoding.moviecatalogue3.model.Movie
@@ -69,6 +67,10 @@ class DetailMovieActivity : AppCompatActivity(), ViewModelHandler {
                 updateFavorite()
             }
         })
+
+        btn_reload.setOnClickListener {
+            loadData()
+        }
 
         title = ""
 

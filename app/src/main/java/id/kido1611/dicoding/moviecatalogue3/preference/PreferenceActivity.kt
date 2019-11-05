@@ -1,8 +1,8 @@
 package id.kido1611.dicoding.moviecatalogue3.preference
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import id.kido1611.dicoding.moviecatalogue3.R
 
 class PreferenceActivity : AppCompatActivity() {

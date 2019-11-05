@@ -36,8 +36,8 @@ class AlarmFragment: PreferenceFragmentCompat(),
         checkBoxDaily = findPreference<CheckBoxPreference>(DAILY_KEY) as CheckBoxPreference
         checkBoxRelease = findPreference<CheckBoxPreference>(RELEASE_KEY) as CheckBoxPreference
 
-        checkBoxDaily.setOnPreferenceChangeListener(this)
-        checkBoxRelease.setOnPreferenceChangeListener(this)
+        checkBoxDaily.onPreferenceChangeListener = this
+        checkBoxRelease.onPreferenceChangeListener = this
     }
 
     private fun setSummary(){

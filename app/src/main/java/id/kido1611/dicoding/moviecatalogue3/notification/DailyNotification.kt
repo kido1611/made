@@ -7,12 +7,9 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import id.kido1611.dicoding.moviecatalogue3.R
 import id.kido1611.dicoding.moviecatalogue3.activity.main.MainActivity
 import java.util.*

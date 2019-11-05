@@ -36,17 +36,14 @@ class FavoriteContainerFragment : Fragment() {
 
         val bundle = Bundle()
         bundle.putBoolean("favorite", true)
-        var fragment = MovieFragment()
+        val fragment = MovieFragment()
         fragment.arguments = bundle
         fragmentList.add(fragment)
 
-        var fragment2 = TVFragment()
+        val fragment2 = TVFragment()
         fragment2.arguments = bundle
         fragmentList.add(fragment2)
         adapter.notifyDataSetChanged()
-//        childFragmentManager.beginTransaction()
-//            .replace(R.id.fragment_container, fragment, MovieFragment::class.java.simpleName)
-//            .commit()
     }
 
 

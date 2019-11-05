@@ -7,9 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.widget.RemoteViews
-import android.widget.Toast
 import id.kido1611.dicoding.moviecatalogue3.R
 import id.kido1611.dicoding.moviecatalogue3.activity.detailmovie.DetailMovieActivity
 

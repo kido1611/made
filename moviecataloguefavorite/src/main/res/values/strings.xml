@@ -1,3 +1,42 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Movie Catalogue Favorite</string>
+    <string name="data_language">en-US</string>
+
+    <string name="release">Release %1$s</string>
+    <string name="vote">Vote %1$.1f</string>
+    <string name="runtime">Runtime %1$d minutes</string>
+    <string name="field_title">Title</string>
+    <string name="field_release">Release</string>
+    <string name="field_vote">Vote</string>
+    <string name="field_runtime">Runtime</string>
+    <string name="field_tv_runtime">Runtime per episode</string>
+    <string name="movie_detail">Movie Detail</string>
+    <string name="tv_detail">TV Detail</string>
+    <string name="change_language_settings">Change Language Settings</string>
+    <string name="title_movies">Movies</string>
+    <string name="title_tv_shows">TV Shows</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="description_movie_poster">Movie poster</string>
+    <string name="field_description">Overview</string>
+    <string name="reload_data">Reload data</string>
+    <string name="error_no_network_connection">No network connection</string>
+    <string name="not_available">Not available</string>
+    <string name="favorite_add_success">Success add movie to favorite</string>
+    <string name="favorite_remove_success">Success remove movie from favorite</string>
+    <string name="search">Search</string>
+    <string name="search_not_found">Not found</string>
+    <string name="appwidget_text">Favorite Movie</string>
+    <string name="add_widget">Add widget</string>
+    <string name="daily_alarm_message">Open the application right now</string>
+    <string name="alarm_preference">Reminder Preference</string>
+    <string name="alarm_success_setup">Success set up alarm</string>
+    <string name="alarm_success_cancel">Success cancel alarm</string>
+    <string name="alarm_failed_get_data">Failed getting data: %1$s</string>
+    <string name="alarm_release_message">New movies</string>
+    <string name="alarm_release_new_movie">New movie: %1$s</string>
+    <string name="alarm_release_summary">%1$d movies release today</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

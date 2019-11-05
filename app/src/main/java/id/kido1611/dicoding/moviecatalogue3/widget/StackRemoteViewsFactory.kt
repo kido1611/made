@@ -6,19 +6,20 @@ import android.database.Cursor
 import android.os.Binder
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import androidx.core.database.getIntOrNull
 import androidx.core.os.bundleOf
 import com.bumptech.glide.Glide
 import id.kido1611.dicoding.moviecatalogue3.R
 import id.kido1611.dicoding.moviecatalogue3.db.FavoriteMovieProvider
+import id.kido1611.dicoding.moviecatalogue3.db.MovieDatabase
 import id.kido1611.dicoding.moviecatalogue3.model.Movie
 
 internal class StackRemoteViewsFactory(private val context: Context): RemoteViewsService.RemoteViewsFactory {
     private var movieItems = ArrayList<Movie>()
     private var cursor: Cursor? = null
+    private lateinit var movieDatabase: MovieDatabase
 
     override fun onCreate() {
-
+        movieDatabase = MovieDatabase.getInstance(context.applicationContext)!!
     }
 
     override fun getLoadingView(): RemoteViews? = null

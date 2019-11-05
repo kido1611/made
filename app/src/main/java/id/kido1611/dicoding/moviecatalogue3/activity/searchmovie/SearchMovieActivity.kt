@@ -1,10 +1,10 @@
 package id.kido1611.dicoding.moviecatalogue3.activity.searchmovie
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -93,14 +93,14 @@ class SearchMovieActivity : AppCompatActivity(), ViewModelHandler {
         })
 
         searchView.requestFocus()
-        searchView.setFocusable(true)
+        searchView.isFocusable = true
         searchView.requestFocusFromTouch()
         searchView.isIconified = false
 
         movieListViewModel.getSearchMovieText().observe(this, Observer {
             if(it!=null){
                 searchView.setQuery(it, false)
-                searchView.setFocusable(false)
+                searchView.isFocusable = false
                 searchView.clearFocus()
             }
         })

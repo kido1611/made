@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -30,7 +29,6 @@ class ReleaseNotification : BroadcastReceiver() {
 
     companion object{
         const val NOTIFICATION_ID = 103
-        const val NOTIFICATION_REQUEST_CODE = 104
         const val CHANNEL_ID = "channel_release"
         const val CHANNEL_NAME = "Release Channel"
         const val MAX_NOTIFICATION = 2
