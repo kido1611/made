@@ -4,6 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="id.kido1611.dicoding.moviecatalogue3.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="id.kido1611.dicoding.moviecatalogue3.WRITE_DATABASE"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +19,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <receiver
+            android:name=".notification.ReleaseNotification"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <activity android:name=".preference.PreferenceActivity"
+            android:label="@string/alarm_preference"/>
+
+        <receiver
+            android:name=".notification.DailyNotification"
+            android:enabled="true"
+            android:exported="true" />
+
+        <provider
+            android:name=".db.FavoriteMovieProvider"
+            android:authorities="id.kido1611.dicoding.moviecatalogue3"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="id.kido1611.dicoding.moviecatalogue3.READ_DATABASE"
+            android:writePermission="id.kido1611.dicoding.moviecatalogue3.WRITE_DATABASE" />
+
+        <service
+            android:name=".widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <receiver android:name=".widget.FavoriteMovieWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

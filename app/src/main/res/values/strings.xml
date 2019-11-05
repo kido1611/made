@@ -28,4 +28,12 @@
     <string name="search_not_found">Not found</string>
     <string name="appwidget_text">Favorite Movie</string>
     <string name="add_widget">Add widget</string>
+    <string name="daily_alarm_message">Open the application right now</string>
+    <string name="alarm_preference">Reminder Preference</string>
+    <string name="alarm_success_setup">Success set up alarm</string>
+    <string name="alarm_success_cancel">Success cancel alarm</string>
+    <string name="alarm_failed_get_data">Failed getting data: %1$s</string>
+    <string name="alarm_release_message">New movies</string>
+    <string name="alarm_release_new_movie">New movie: %1$s</string>
+    <string name="alarm_release_summary">%1$d release today</string>
 </resources>

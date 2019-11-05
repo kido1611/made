@@ -27,4 +27,7 @@ interface TheMovieDBServices {
 
     @GET("search/tv")
     fun SearchTV(@Query("query") query: String, @Query("language") language: String): Call<TVResponse>
+
+    @GET("discover/movie")
+    fun ReleaseMovie(@Query("primary_release_date.gte") gte: String, @Query("primary_release_date.lte") lte: String): Call<MovieResponse>
 }

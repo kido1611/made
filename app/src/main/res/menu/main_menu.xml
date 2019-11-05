@@ -5,4 +5,8 @@
         android:id="@+id/action_locale_settings"
         android:title="@string/change_language_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_preference"
+        android:title="@string/alarm_preference"
+        app:showAsAction="never" />
 </menu>
